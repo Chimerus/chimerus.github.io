@@ -3,42 +3,59 @@
 }
 
 body {
-  background-color: black;
   color: green;
+  background-color: black;
+  font-family: 'Press Start 2P';
 }
 
 h1 {
-  text-align: center;
   font-size: 3.2em;
+  text-align: center;
 }
 
 div.missile{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(http://vignette3.wikia.nocookie.net/metalslug/images/d/d4/Cohete-Chico.gif/revision/latest?cb=20101218194137);
+}
+
+div.missile2{
   position: absolute;
   width: 50px;
   height: 50px;
-  background-image: url(http://vignette3.wikia.nocookie.net/metalslug/images/d/d4/Cohete-Chico.gif/revision/latest?cb=20101218194137);
   background-size: contain;
+  transform: rotate(270deg);
   background-repeat: no-repeat;
   background-position: center;
+  background-image: url(http://vignette2.wikia.nocookie.net/metalslug/images/a/a5/Upgrade_missle.gif/revision/latest?cb=20101222041405);
 }
 
 div#playField {
-  position: absolute;
-  border: solid 2px black;
   width: 60%;
-  height: 800px;
   left: 20%;
-  background-image: url(http://sayforward.com/sites/default/files/ext_image/4496364812_b87cb3f4a7_o.gif?1273638765);
-  background-size: cover;
-  text-align: center;
+  height: 800px;
   font-size: 70px;
+  line-height: 80px;
+  position: absolute;
+  text-align: center;
+  background-size: cover;
+  border: solid 5px white;
+  background-image: url(http://sayforward.com/sites/default/files/ext_image/4496364812_b87cb3f4a7_o.gif?1273638765);
 }
-}
+
 .score {
- 
+  bottom: 0;
+  left: 50%;
   font-size: 3.5em;
+  position: absolute;
 }
 
 div.missile.boom {
+  transform: scale(2,2);
+  transition-timing-function": linear;
   background-image: url(http://rs205.pbsrc.com/albums/bb218/ScheissBear/Megaman%20Icons/GelbExplo2.gif~c200);
 }
