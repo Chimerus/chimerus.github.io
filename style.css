@@ -1,0 +1,44 @@
+#wrapper{
+ 
+}
+
+body {
+  background-color: black;
+  color: green;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3.2em;
+}
+
+div.missile{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-image: url(http://vignette3.wikia.nocookie.net/metalslug/images/d/d4/Cohete-Chico.gif/revision/latest?cb=20101218194137);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+div#playField {
+  position: absolute;
+  border: solid 2px black;
+  width: 60%;
+  height: 800px;
+  left: 20%;
+  background-image: url(http://sayforward.com/sites/default/files/ext_image/4496364812_b87cb3f4a7_o.gif?1273638765);
+  background-size: cover;
+  text-align: center;
+  font-size: 70px;
+}
+}
+.score {
+ 
+  font-size: 3.5em;
+}
+
+div.missile.boom {
+  background-image: url(http://rs205.pbsrc.com/albums/bb218/ScheissBear/Megaman%20Icons/GelbExplo2.gif~c200);
+}
