@@ -97,7 +97,7 @@ var incoming = window.setInterval(makeMissile,interval);
 var hit;
 var missileClickHandler = function(event){
   score += 5;
-  $(".score").text("Score: "score);
+  $(".score").text("Score: "+score);
   hit = $(this);
   var loc = window.getComputedStyle(this, null);
   left = loc.getPropertyValue('left');
