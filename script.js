@@ -1,11 +1,17 @@
 "use strict";
 
 (function () {
+
 //define the playing field
 var field = $('#playField');
 var x = field.innerWidth();
 var y = 900;
 var fieldDimensions = [x,y];
+
+//sounds!
+var launch = new Audio('/Sounds/Bottle Rocket-SoundBible.com-332895117.mp3');
+var impact = new Audio('/Sounds/Grenade-SoundBible.com-1777900486.mp3');
+var gameOver = new Audio('/Sounds/Bunker_Buster_Missle-Mike_Koenig-1405344373.mp3')
 
 //these var to control game playing
 //can use with clear interval.
@@ -13,8 +19,8 @@ var incoming;
 var path;
 
 //difficulty control
-var timer = 10;
-var interval = 5000;
+var timer = 7 ;
+var interval = 3500;
 
 //score tracker
 var score = 0;
@@ -60,10 +66,13 @@ function makeMissile () {
     timer --;
   }
   //end of generator
+  missile.one("click", missileClickHandler );
+
   }
 //create and shoot interceptor missile
 function interceptorMissile () {
   var missile2 = $('<div class="missile2"></div>');
+    launch.play();
     missile2.css({"top":800,
                "left": x/2,
                "transition":"top "+0.5+"s, left "+0.5+"s",
@@ -86,8 +95,9 @@ var incoming = window.setInterval(makeMissile,interval);
 //missile click up score
 //also trigger stop missile and interceptor missile
 var hit;
-$(document).on('click','.missile',function(event){
-  $(".score").text(score);
+var missileClickHandler = function(event){
+  score += 5;
+  $(".score").text("Score: "score);
   hit = $(this);
   var loc = window.getComputedStyle(this, null);
   left = loc.getPropertyValue('left');
@@ -100,18 +110,18 @@ $(document).on('click','.missile',function(event){
   hitMissile();
   interceptorMissile();
   // return false;
-  })
+}
 
 //interceptor missile add tag to target missile for destruction
 function hitMissile(){
   window.setTimeout(function(){
     hit.addClass("boom");
+    impact.play();
   },500);
  }
   
 //explode missile
 function kaBoom(){
-  score += 5;
   window.setTimeout(function(){
     $(".boom").remove();
   },1000);
@@ -123,6 +133,7 @@ $(document).on('click','.missile',kaBoom);
 //Game over man, Game over!
 $(document).on('transitionend','.missile',function(event){
    window.clearInterval(incoming);
+   gameOver.play();
   field.html("<br>GAME OVER!!!<br><br> Your Score is:<br>"+score);
 })
 

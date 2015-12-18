@@ -31,7 +31,7 @@ div.missile2{
   transform: rotate(270deg);
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url(http://vignette2.wikia.nocookie.net/metalslug/images/a/a5/Upgrade_missle.gif/revision/latest?cb=20101222041405);
+  background-image: url(/Images/Upgrade_missle.gif);
 }
 
 div#playField {
@@ -49,13 +49,13 @@ div#playField {
 
 .score {
   bottom: 0;
-  left: 50%;
+  left: 20%;
   font-size: 3.5em;
   position: absolute;
 }
 
 div.missile.boom {
-  transform: scale(2,2);
-  transition-timing-function": linear;
+/*  transform: scale(2,2);
+  transition-timing-function": linear;*/
   background-image: url(http://rs205.pbsrc.com/albums/bb218/ScheissBear/Megaman%20Icons/GelbExplo2.gif~c200);
 }
