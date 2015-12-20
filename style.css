@@ -1,5 +1,7 @@
 body {
   color: green;
+  background-size: cover;
+  background-image: url(/Images/MissileCommand.png);
   background-color: black;
   font-family: 'Press Start 2P';
   cursor:crosshair;
@@ -40,7 +42,8 @@ div#screenCover{
 /*  line-height: 80px;*/
   position: absolute;
   text-align: center;
-  background: white;
+  background: black;
+  /*background-image: url(/Images/starField.jpg);*/
   z-index: 2;
 /*  border: solid 5px white;*/
 }
@@ -51,6 +54,7 @@ div#gameOver{
   top: 0;
   height: 800px;
   font-size: 40px;
+  line-height: 50px;
   position: absolute;
   text-align: center;
   background-position: center;
@@ -73,22 +77,32 @@ div#playField {
   z-index: -1;
 }
 
-/*#turret {
-  
-  z-index: 1;
-}*/
+#turret {
+  position: absolute;
+  height: 80px;
+  width: 100px;
+}
 
 div.button{
-  margin: 10px;
-  padding: 15px;
-  border: solid 3px black;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 20px;
+  border: solid 3px orange;
+  background-color: #333333;
 }
 .score {
-  top: 0;
+  top: 20px;
   right: 10px;
   font-size: 1.7em;
-  line-height: 200%;
   position: absolute;
+}
+.reset{
+position: absolute;
+bottom:0;
+}
+
+.wrapper {
+  background-color: rgba(0,0,0,0.6);
 }
 
 div.missile.boom {

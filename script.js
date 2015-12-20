@@ -6,7 +6,12 @@
 var field = $('#playField');
 var x = field.innerWidth();
 var y = 900;
-var fieldDimensions = [x,y];
+
+//tank location set dynamically
+$("#turret").css({
+  "bottom":0,
+  "left":x/2-50+"px",
+})
 
 //sounds!
 // var launch = new Audio('/Sounds/Bottle Rocket-SoundBible.com-332895117.mp3');
@@ -19,34 +24,60 @@ theme.play();
 //can use with clear interval.
 var incoming;
 var path;
+var hiScore = "";
 
-var hiScore="";
 //difficulty control
-var timer = 7 ;
+var timer = 4.5;
 var interval = 3500;
-
+var howMany =1;
 var gameType;
+
+//score tracker
+var score = 0;
+var multiplier = 5;
+var gameType;
+// var hiScore;
+
+//anti-missile location control
+var left;
+var top;
+
+$("#gameOver").hide();
+$(".reset").hide();
+
 //Modes
 $(".classic").on('click', function() {
-  gameType="Classic";
+  gameType ="Classic";
   modes();
   gameOn();
 })
 
 $(".challenge").on('click', function() {
-  timer = 4;
-  interval = 2000;
+  timer = 3;
+  interval = 1500;
   multiplier = 10;
-  gameType="Challenge";
+  howMany = 2;
+  gameType ="Challenge";
   modes();
   gameOn();
 })
 
-$(".double").on('click', function() {
+$(".triple").on('click', function() {
   multiplier = 10;
-  gameType="Double Trouble";
+  interval = 3000;
+  gameType = "Triple Threat";
+  howMany = 3;
   modes();
-  gameDouble();
+  gameOn();
+})
+
+$(".random").on('click', function() {
+  interval = 3000;
+  multiplier = 10;
+  timer = 4;
+  gameType = "Random Missiles";
+  modes();
+  gameOn();
 })
 
 //game history:
@@ -67,11 +98,18 @@ switch(gameType){
       setScores('challengeScores');
     }
     break;
-  case "Double Trouble":
-    if(!localStorage.getItem('doubleTroubleScores')) {
-      populateStorage('doubleTroubleScores');
+  case "Triple Threat":
+    if(!localStorage.getItem('tripleThreatScores')) {
+      populateStorage('tripleThreatScores');
     } else {
-      setScores('doubleTroubleScores');
+      setScores('tripleThreatScores');
+    }
+    break;
+  case "Random Missiles":
+    if(!localStorage.getItem('randomScores')) {
+      populateStorage('randomScores');
+    } else {
+      setScores('randomScores');
     }
     break;
   }
@@ -83,71 +121,70 @@ function populateStorage(mode){
 function setScores(x){
   hiScore=localStorage.getItem(x);
 }
-//score tracker
-var score = 0;
-var multiplier = 5;
-var gameType;
-// var hiScore;
-
-//anti-missile location control
-var left;
-var top;
-
-$("#gameOver").hide();
 
 //Game Start
 function gameOn() {
   $("#screenCover").fadeOut("slow");
-  incoming = window.setInterval(makeMissile,interval);
+  incoming = window.setInterval(missileFactory,interval);
 }
 
-function gameDouble() {
-  $("#screenCover").hide();
-  incoming = window.setInterval(makeTwoMissile,interval);
-}
-
-function makeTwoMissile() {
-    makeMissile();
-    makeMissile();
-}
-//create a new missile
-//location subtract a little over img div size
-function makeMissile () {
-  var missile = $('<div class="missile"></div>');
-     field.append(missile);
-  var missileSpawn = Math.floor(Math.random() * (x-55));
-  var missileTarget = Math.floor(Math.random() * (x-55));
-  var spin=90;
-
-  //rotate!
-  if ((missileTarget - missileSpawn)>0) {
-    spin = spin +(180*Math.atan(700/(missileTarget - missileSpawn)))/Math.PI;
-  } else {
-    spin = spin + 90 +(180*Math.atan((missileSpawn - missileTarget)/700))/Math.PI;
+function missileFactory(){
+  if(gameType==="Classic"&&interval===3000){
+    howMany++;
   }
 
-  //spawn missile at location, rotated
-  missile.css({"top":0,
-               "left":missileSpawn,
-               "transition":"top "+timer+"s, left "+timer+"s",
-               "transition-timing-function":"linear",
-               "transform":"rotate("+spin+"deg)"});
+  if(gameType==="Challenge"&&interval===2000){
+    howMany++;
+  }
 
-  //sets random target
-  path = setTimeout(function(){
-    var s= missile.css({"top":y-200,
-               "left":missileTarget});
-  }, 10)
-
+  if(gameType==="Random Missiles"){
+    howMany=Math.floor((Math.random() * 4) + 1)
+  }
+  for(var i=0;i<howMany;i++){
+    makeMissile();
+  }
   //generate more, faster missiles over time
   if(interval>500){
     interval-=250;
+    console.log(interval);
   }
-  if(interval%1000===0&&timer>1){
-    timer --;
+
+  if(interval%1000===0&&timer>0.5){
+    timer -=0.5;
+    console.log(timer);
   }
-  //end of generator
-  missile.one("click", missileClickHandler );
+}
+
+//create a new missile
+//location adjust size by window size
+function makeMissile () {
+    var missile = $('<div class="missile"></div>');
+       field.append(missile);
+    var missileSpawn = Math.floor(Math.random() * (x*0.85)+(x*0.1));
+    var missileTarget = Math.floor(Math.random() * (x*0.85)+(x*0.1));
+    var spin=90;
+
+    //rotate!
+    if ((missileTarget - missileSpawn)>0) {
+      spin = spin +(180*Math.atan(700/(missileTarget - missileSpawn)))/Math.PI;
+    } else {
+      spin = spin + 90 +(180*Math.atan((missileSpawn - missileTarget)/700))/Math.PI;
+    }
+
+    //spawn missile at location, rotated
+    missile.css({"top":0,
+                 "left":missileSpawn,
+                 "transition":"top "+timer+"s, left "+timer+"s",
+                 "transition-timing-function":"linear",
+                 "transform":"rotate("+spin+"deg)"});
+
+    //sets random target
+    path = setTimeout(function(){
+      var s= missile.css({"top":y-200,
+                 "left":missileTarget});
+    }, 10)
+    //click event handler
+    missile.one("click", missileClickHandler);
   }
 
 //create and shoot interceptor missile
@@ -164,7 +201,7 @@ function interceptorMissile () {
   var missile2 = $('<div class="missile2"></div>');
   var launch = new Audio('/Sounds/Bottle Rocket-SoundBible.com-332895117.mp3');
     launch.play();
-    missile2.css({"top":800,
+    missile2.css({"top":720,
                "left": x/2,
                "transition":"top "+0.5+"s, left "+0.5+"s",
                "transition-timing-function":"linear",
@@ -225,12 +262,12 @@ function scoring(){
   hiScore=hiScore.split(" ").sort(function(a, b) {
     return b - a;
   });
-  if(hiScore.length>9){
+  if(hiScore.length>10){
     hiScore.pop();
   }
   hiScore=hiScore.join(" ");
 
-    //store new hi score list  
+  //store new hi score list  
   switch(gameType){
     case "Classic":
       localStorage.setItem('classicScores',hiScore);
@@ -238,8 +275,11 @@ function scoring(){
     case "Challenge":
       localStorage.setItem('challengeScores',hiScore);
       break;
-    case "Double Trouble":
-      localStorage.setItem('doubleTroubleScores',hiScore);
+    case "Triple Threat":
+      localStorage.setItem('tripleThreatScores',hiScore);
+      break;
+    case "Random Missiles":
+      localStorage.setItem('randomScores',hiScore);
       break;
   }
 }
@@ -254,6 +294,7 @@ $(document).on('transitionend','.missile',function(event){
   },1000);
   gameOver.play();
   $("#gameOver").fadeIn("slow");
+  $(".reset").show();
 
 //score display
 //add Hi score list
@@ -264,8 +305,8 @@ for(var i=0;i<disp.length;i++){
 }
 
 //display your score and Hi score list
-var stock = "<br>GAME OVER!!!<br><br> Your Score is:<br>"+score+"<br><br> HIGH SCORE LIST:<br>";
-$("#gameOver").html(stock+hiScoreDisplay);
+var stock = "<br>GAME OVER!!!<br>Your Score is:<br>"+score+"<br>"+gameType+"<br>Top 10:<br>";
+$("#scores").html(stock+hiScoreDisplay);
 })
 
 })();
