@@ -9,8 +9,8 @@ var y = 900;
 var fieldDimensions = [x,y];
 
 //sounds!
-var launch = new Audio('/Sounds/Bottle Rocket-SoundBible.com-332895117.mp3');
-var impact = new Audio('/Sounds/Grenade-SoundBible.com-1777900486.mp3');
+// var launch = new Audio('/Sounds/Bottle Rocket-SoundBible.com-332895117.mp3');
+// var impact = new Audio('/Sounds/Grenade-SoundBible.com-1777900486.mp3');
 var gameOver = new Audio('/Sounds/Bunker_Buster_Missle-Mike_Koenig-1405344373.mp3')
 var theme = new Audio('/Sounds/ThemeEdit.mp3');
 theme.play();
@@ -20,13 +20,16 @@ theme.play();
 var incoming;
 var path;
 
+var hiScore="";
 //difficulty control
 var timer = 7 ;
 var interval = 3500;
 
+var gameType;
 //Modes
 $(".classic").on('click', function() {
   gameType="Classic";
+  modes();
   gameOn();
 })
 
@@ -35,44 +38,47 @@ $(".challenge").on('click', function() {
   interval = 2000;
   multiplier = 10;
   gameType="Challenge";
+  modes();
   gameOn();
 })
 
 $(".double").on('click', function() {
   multiplier = 10;
   gameType="Double Trouble";
+  modes();
   gameDouble();
 })
 
 //game history:
-var hiScore="0";
+function modes(){
 
 switch(gameType){
   case "Classic":
     if(!localStorage.getItem('classicScores')) {
-      populateStorage();
+      populateStorage('classicScores');
     } else {
       setScores('classicScores');
     }
     break;
   case "Challenge":
     if(!localStorage.getItem('challengeScores')) {
-      populateStorage();
+      populateStorage('challengeScores');
     } else {
       setScores('challengeScores');
     }
     break;
   case "Double Trouble":
     if(!localStorage.getItem('doubleTroubleScores')) {
-      populateStorage();
+      populateStorage('doubleTroubleScores');
     } else {
       setScores('doubleTroubleScores');
     }
     break;
+  }
 }
 
-function populateStorage(){
-  hiScore="0";
+function populateStorage(mode){
+  localStorage[mode]="50";
 }
 function setScores(x){
   hiScore=localStorage.getItem(x);
@@ -91,7 +97,7 @@ $("#gameOver").hide();
 
 //Game Start
 function gameOn() {
-  $("#screenCover").hide();
+  $("#screenCover").fadeOut("slow");
   incoming = window.setInterval(makeMissile,interval);
 }
 
@@ -109,8 +115,8 @@ function makeTwoMissile() {
 function makeMissile () {
   var missile = $('<div class="missile"></div>');
      field.append(missile);
-  var missileSpawn = Math.ceil(Math.random() * (x-55));
-  var missileTarget = Math.ceil(Math.random() * (x-55));
+  var missileSpawn = Math.floor(Math.random() * (x-55));
+  var missileTarget = Math.floor(Math.random() * (x-55));
   var spin=90;
 
   //rotate!
@@ -156,6 +162,7 @@ function interceptorMissile () {
   // }
 
   var missile2 = $('<div class="missile2"></div>');
+  var launch = new Audio('/Sounds/Bottle Rocket-SoundBible.com-332895117.mp3');
     launch.play();
     missile2.css({"top":800,
                "left": x/2,
@@ -197,6 +204,7 @@ var missileClickHandler = function(event){
 function hitMissile(){
   window.setTimeout(function(){
     hit.addClass("boom");
+    var impact = new Audio('/Sounds/Grenade-SoundBible.com-1777900486.mp3');
     impact.play();
   },500);
  }
@@ -218,10 +226,24 @@ function scoring(){
     return b - a;
   });
   if(hiScore.length>9){
-    hiScore = hiScore.pop();
+    hiScore.pop();
   }
   hiScore=hiScore.join(" ");
+
+    //store new hi score list  
+  switch(gameType){
+    case "Classic":
+      localStorage.setItem('classicScores',hiScore);
+      break;
+    case "Challenge":
+      localStorage.setItem('challengeScores',hiScore);
+      break;
+    case "Double Trouble":
+      localStorage.setItem('doubleTroubleScores',hiScore);
+      break;
+  }
 }
+
 //Game over man, Game over!
 $(document).on('transitionend','.missile',function(event){
   window.clearInterval(incoming);
@@ -231,20 +253,7 @@ $(document).on('transitionend','.missile',function(event){
     theme.pause();
   },1000);
   gameOver.play();
-  $("#gameOver").show();
-
-//store new hi score list  
-switch(gameType){
-  case "Classic":
-    localStorage.setItem('classicScores',hiScore);
-    break;
-  case "Challenge":
-    localStorage.setItem('challengeScores',hiScore);
-    break;
-  case "Double Trouble":
-    localStorage.setItem('doubleTroubleScores',hiScore);
-    break;
-}
+  $("#gameOver").fadeIn("slow");
 
 //score display
 //add Hi score list

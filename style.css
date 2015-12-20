@@ -41,6 +41,7 @@ div#screenCover{
   position: absolute;
   text-align: center;
   background: white;
+  z-index: 2;
 /*  border: solid 5px white;*/
 }
 
@@ -50,13 +51,12 @@ div#gameOver{
   top: 0;
   height: 800px;
   font-size: 40px;
-/*  line-height: 80px;*/
   position: absolute;
   text-align: center;
   background-position: center;
   background-size: cover;
-  border: solid 5px white;
   background-image: url(/Images/nuclear-explosion.gif);
+  z-index: 2;
 }
 
 div#playField {
@@ -66,10 +66,17 @@ div#playField {
   position: absolute;
   text-align: center;
   background-size: cover;
+  background-position: center;
   border: solid 5px white;
-  background-image: url(http://sayforward.com/sites/default/files/ext_image/4496364812_b87cb3f4a7_o.gif?1273638765);
+  /*background-image: url(http://sayforward.com/sites/default/files/ext_image/4496364812_b87cb3f4a7_o.gif?1273638765);*/
+  background-image: url(/Images/citySkyline.png);
   z-index: -1;
 }
+
+/*#turret {
+  
+  z-index: 1;
+}*/
 
 div.button{
   margin: 10px;
@@ -78,7 +85,7 @@ div.button{
 }
 .score {
   top: 0;
-  right: 0;
+  right: 10px;
   font-size: 1.7em;
   line-height: 200%;
   position: absolute;
