@@ -153,12 +153,10 @@ function missileFactory(){
   //generate more, faster missiles over time
   if(interval>500){
     interval-=250;
-    console.log(interval);
   }
 
   if(interval%1000===0&&timer>0.5){
     timer -=0.5;
-    console.log(timer);
   }
 }
 

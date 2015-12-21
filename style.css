@@ -106,10 +106,6 @@ div.button{
   padding:10px;
 }
 
-.sound{
-  position:absolute;
-}
-
 div.missile.boom {
   background-image: url(/Images/GelbExplo2.gif);
 }
