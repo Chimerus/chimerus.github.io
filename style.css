@@ -1,7 +1,7 @@
 body {
   color: green;
   background-size: cover;
-  background-image: url(/Images/MissileCommand.png);
+  background-image: url(/Images/industrial.jpg);
   background-color: black;
   font-family: 'Press Start 2P';
   cursor:crosshair;
@@ -39,13 +39,10 @@ div#screenCover{
   top: 0;
   height: 800px;
   font-size: 40px;
-/*  line-height: 80px;*/
   position: absolute;
   text-align: center;
-  background: black;
-  /*background-image: url(/Images/starField.jpg);*/
+  background-color: rgba(0,0,0,0.6);
   z-index: 2;
-/*  border: solid 5px white;*/
 }
 
 div#gameOver{
@@ -53,13 +50,13 @@ div#gameOver{
   left: 0;
   top: 0;
   height: 800px;
-  font-size: 40px;
+  font-size: 30px;
   line-height: 50px;
   position: absolute;
   text-align: center;
+  background-color: rgba(0,0,0,0.6);
   background-position: center;
   background-size: cover;
-  background-image: url(/Images/nuclear-explosion.gif);
   z-index: 2;
 }
 
@@ -72,7 +69,6 @@ div#playField {
   background-size: cover;
   background-position: center;
   border: solid 5px white;
-  /*background-image: url(http://sayforward.com/sites/default/files/ext_image/4496364812_b87cb3f4a7_o.gif?1273638765);*/
   background-image: url(/Images/citySkyline.png);
   z-index: -1;
 }
@@ -85,10 +81,14 @@ div#playField {
 
 div.button{
   border-radius: 10px;
-  margin: 20px;
+  margin: 35px;
   padding: 20px;
   border: solid 3px orange;
   background-color: #333333;
+}
+.button:hover {
+  box-shadow: inset 0 0 0 5px orange;
+  background: rgb(25,25,25);
 }
 .score {
   top: 20px;
@@ -101,12 +101,6 @@ position: absolute;
 bottom:0;
 }
 
-.wrapper {
-  background-color: rgba(0,0,0,0.6);
-}
-
 div.missile.boom {
-/*  transform: scale(2,2);
-  transition-timing-function": linear;*/
-  background-image: url(http://rs205.pbsrc.com/albums/bb218/ScheissBear/Megaman%20Icons/GelbExplo2.gif~c200);
+  background-image: url(/Images/GelbExplo2.gif);
 }

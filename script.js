@@ -44,6 +44,7 @@ var top;
 
 $("#gameOver").hide();
 $(".reset").hide();
+$(".score").hide();
 
 //Modes
 $(".classic").on('click', function() {
@@ -116,7 +117,7 @@ switch(gameType){
 }
 
 function populateStorage(mode){
-  localStorage[mode]="50";
+  localStorage[mode]="";
 }
 function setScores(x){
   hiScore=localStorage.getItem(x);
@@ -124,7 +125,7 @@ function setScores(x){
 
 //Game Start
 function gameOn() {
-  $("#screenCover").fadeOut("slow");
+  $("#screenCover").fadeOut(2000);
   incoming = window.setInterval(missileFactory,interval);
 }
 
@@ -189,15 +190,6 @@ function makeMissile () {
 
 //create and shoot interceptor missile
 function interceptorMissile () {
-  //not rotating... 
-  // var spin2=180;
-  // //rotate!
-  // if ((left - x/2)<0) {
-  //   spin2 = spin2 +(180*Math.atan((700-top)/(left-x/2)))/Math.PI;
-  // } else {
-  //   spin2 = spin2 + 90 +(180*Math.atan((x/2-left)/700))/Math.PI;
-  // }
-
   var missile2 = $('<div class="missile2"></div>');
   var launch = new Audio('/Sounds/Bottle Rocket-SoundBible.com-332895117.mp3');
     launch.play();
@@ -287,13 +279,14 @@ function scoring(){
 //Game over man, Game over!
 $(document).on('transitionend','.missile',function(event){
   window.clearInterval(incoming);
-  $(".missile").remove();
+  $(".missile .missile2").remove();
   scoring();
+  $(".score").hide()
   window.setTimeout(function(){
     theme.pause();
   },1000);
   gameOver.play();
-  $("#gameOver").fadeIn("slow");
+  $("#gameOver").fadeIn(2500);
   $(".reset").show();
 
 //score display
@@ -308,5 +301,7 @@ for(var i=0;i<disp.length;i++){
 var stock = "<br>GAME OVER!!!<br>Your Score is:<br>"+score+"<br>"+gameType+"<br>Top 10:<br>";
 $("#scores").html(stock+hiScoreDisplay);
 })
+
+$(".reset").on('click',function(){location.reload();})
 
 })();
