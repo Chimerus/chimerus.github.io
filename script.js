@@ -205,9 +205,9 @@ function interceptorMissile () {
              })
   field.append(missile2);
     window.setTimeout(function(){
-      var q= missile2.css({"top":top,
+      missile2.css({"top":top,
                "left":left});
-    },10)
+    },20)
 }
 
 //remove interceptor missile when its job is done
@@ -283,9 +283,9 @@ function scoring(){
 //Game over man, Game over!
 $(document).on('transitionend','.missile',function(event){
   window.clearInterval(incoming);
-  $(".missile, .missile2").remove();
+  $(".missile").remove();
   scoring();
-  $(".score").hide()
+  $(".score").hide();
   window.setTimeout(function(){
     theme.pause();
   },1000);
