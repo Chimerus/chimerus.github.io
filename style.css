@@ -86,19 +86,28 @@ div.button{
   border: solid 3px orange;
   background-color: #333333;
 }
+
 .button:hover {
   box-shadow: inset 0 0 0 5px orange;
   background: rgb(25,25,25);
 }
+
 .score {
   top: 20px;
   right: 10px;
   font-size: 1.7em;
   position: absolute;
 }
-.reset{
-position: absolute;
-bottom:0;
+
+.button.reset{
+  font-size: 15pt;
+  width:300px;
+  margin:0 auto;
+  padding:10px;
+}
+
+.sound{
+  position:absolute;
 }
 
 div.missile.boom {

@@ -19,7 +19,13 @@ $("#turret").css({
 var gameOver = new Audio('/Sounds/Bunker_Buster_Missle-Mike_Koenig-1405344373.mp3')
 var theme = new Audio('/Sounds/ThemeEdit.mp3');
 theme.play();
-
+$(".sound").on('click',function(){
+  if(theme.play==true){
+    theme.pause();
+  } else {
+    theme.play();
+  }
+})
 //these var to control game playing
 //can use with clear interval.
 var incoming;
@@ -279,7 +285,7 @@ function scoring(){
 //Game over man, Game over!
 $(document).on('transitionend','.missile',function(event){
   window.clearInterval(incoming);
-  $(".missile .missile2").remove();
+  $(".missile, .missile2").remove();
   scoring();
   $(".score").hide()
   window.setTimeout(function(){
@@ -298,7 +304,7 @@ for(var i=0;i<disp.length;i++){
 }
 
 //display your score and Hi score list
-var stock = "<br>GAME OVER!!!<br>Your Score is:<br>"+score+"<br>"+gameType+"<br>Top 10:<br>";
+var stock = "GAME OVER!!!<br>Your Final Score is: "+score+"<br>Mode: "+gameType+"<br>Top 10 High Scores:<br>";
 $("#scores").html(stock+hiScoreDisplay);
 })
 
