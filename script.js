@@ -224,7 +224,7 @@ var missileClickHandler = function(event){
   hit = $(this);
   var loc = window.getComputedStyle(this, null);
   left = loc.getPropertyValue('left');
-  top = loc.getPropertyValue('top')
+  top = loc.getPropertyValue('top');
   $(this).css({
                 "top": top,
                "left": left,
